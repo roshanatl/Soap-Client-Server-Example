@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:sch="http://spring.tutorialflix.com/types/v1" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://spring.tutorialflix.com/service/v1" targetNamespace="http://spring.tutorialflix.com/service/v1">
+  <wsdl:types>
+    <xs:schema xmlns:tns="http://spring.tutorialflix.com/types/v1" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://spring.tutorialflix.com/types/v1">
+	
+	<xs:element name="createCustomerRequest">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="customerName">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="50"/>
+							<xs:whiteSpace value="collapse"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="customerAge">
+					<xs:simpleType>
+						<xs:restriction base="xs:integer"/>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="customerCity">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="50"/>
+							<xs:whiteSpace value="collapse"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+				<xs:element name="customerPhoneNumber">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:maxLength value="10"/>
+							<xs:whiteSpace value="collapse"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="createCustomerResponse">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="customerID" type="xs:integer"/>
+				<xs:element name="details" type="xs:string"/>
+				<xs:element name="status" type="xs:string"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+	<xs:element name="createCustomerFault">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="errorMessage" type="xs:normalizedString"/>
+				<xs:element name="errorCode" type="xs:int"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="createCustomerResponse">
+    <wsdl:part element="sch:createCustomerResponse" name="createCustomerResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createCustomerRequest">
+    <wsdl:part element="sch:createCustomerRequest" name="createCustomerRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="createCustomerFault">
+    <wsdl:part element="sch:createCustomerFault" name="createCustomerFault">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="CustomerServicePort">
+    <wsdl:operation name="createCustomer">
+      <wsdl:input message="tns:createCustomerRequest" name="createCustomerRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:createCustomerResponse" name="createCustomerResponse">
+    </wsdl:output>
+      <wsdl:fault message="tns:createCustomerFault" name="createCustomerFault">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="CustomerServicePortSoap11" type="tns:CustomerServicePort">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="createCustomer">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="createCustomerRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="createCustomerResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="createCustomerFault">
+        <soap:fault name="createCustomerFault" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="CustomerServicePortService">
+    <wsdl:port binding="tns:CustomerServicePortSoap11" name="CustomerServicePortSoap11">
+      <soap:address location="http://localhost:8080/ws"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
